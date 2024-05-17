@@ -13,16 +13,13 @@ listint_t *insert_node(listint_t **head, int number)
     listint_t *new;
     listint_t *current;
 
-    // Allocate memory for the new node
     new = malloc(sizeof(listint_t));
     if (new == NULL)
         return (NULL);
 
-    // Initialize the new node
     new->n = number;
     new->next = NULL;
 
-    // Handle the case where the list is empty or the new node should be the new head
     if (*head == NULL || (*head)->n >= number)
     {
         new->next = *head;
@@ -30,14 +27,12 @@ listint_t *insert_node(listint_t **head, int number)
         return (new);
     }
 
-    // Traverse the list to find the insertion point
     current = *head;
     while (current->next != NULL && current->next->n < number)
     {
         current = current->next;
     }
 
-    // Insert the new node at the correct position
     new->next = current->next;
     current->next = new;
 
