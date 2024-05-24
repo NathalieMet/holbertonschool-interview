@@ -36,19 +36,20 @@ void heapify_up(heap_t *node)
  */
 heap_t *insert_into_complete_tree(heap_t **root, int value)
 {
-    // If the tree is empty, insert the first node
+    binary_tree_t **queue = malloc(1024 * sizeof(binary_tree_t *)); /** Example queue*/
+    /** If the tree is empty, insert the first node */
     if (*root == NULL)
     {
         *root = binary_tree_node(NULL, value);
         return (*root);
     }
 
-    // Use a queue to perform level order traversal and find the right spot
-    binary_tree_t **queue = malloc(1024 * sizeof(binary_tree_t *)); // Example queue
+    /** Use a queue to perform level order traversal and find the right spot */
     if (!queue)
         return (NULL);
 
-    int front = 0, rear = 0;
+    int front = 0;
+	int  rear = 0;
     queue[rear++] = *root;
 
     while (front < rear)
