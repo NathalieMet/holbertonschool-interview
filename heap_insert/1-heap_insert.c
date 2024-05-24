@@ -17,13 +17,14 @@ void swap_values(heap_t *a, heap_t *b)
  * heapify_up - Restore the heap property by moving the node up
  * @node: Pointer to the node to move up
  */
-void heapify_up(heap_t *node)
+heap_t* heapify_up(heap_t *node)
 {
     while (node->parent && node->parent->n < node->n)
     {
         swap_values(node, node->parent);
         node = node->parent;
     }
+	return(node);
 }
 
 /**
@@ -36,7 +37,7 @@ void heapify_up(heap_t *node)
  */
 heap_t *insert_into_complete_tree(heap_t **root, int value)
 {
-    binary_tree_t **queue = malloc(1024 * sizeof(binary_tree_t *)); /** Example queue*/
+    binary_tree_t **queue; /** Example queue*/
     int front = 0;
 	int  rear = 0;
     /** If the tree is empty, insert the first node */
@@ -45,6 +46,7 @@ heap_t *insert_into_complete_tree(heap_t **root, int value)
         *root = binary_tree_node(NULL, value);
         return (*root);
     }
+	queue = malloc(1024 * sizeof(binary_tree_t *));
 
     /** Use a queue to perform level order traversal and find the right spot */
     if (!queue)
@@ -92,7 +94,7 @@ heap_t *heap_insert(heap_t **root, int value)
     if (!new_node)
         return (NULL);
 
-    heapify_up(new_node);
+    new_node = heapify_up(new_node);
     return (new_node);
 }
 
