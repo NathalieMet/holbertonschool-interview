@@ -10,6 +10,7 @@ Returns an integer
 If n is impossible to achieve, return 0
 """
 
+
 def minOperations(n):
     """method to find the fewest number of operations"""
     if n <= 1:
