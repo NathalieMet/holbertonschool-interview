@@ -6,14 +6,14 @@ void topple(int grid[3][3]);
 bool is_stable(int grid[3][3]);
 
 void sandpiles_sum(int grid1[3][3], int grid2[3][3]) {
-    // Add the two grids
+
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             grid1[i][j] += grid2[i][j];
         }
     }
 
-    // Check and stabilize the grid
+
     while (!is_stable(grid1)) {
         printf("=\n");
         print_grid(grid1);
@@ -57,7 +57,7 @@ void topple(int grid[3][3]) {
         }
     }
 
-    // Update the grid with the new values after toppling
+
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             grid[i][j] += temp_grid[i][j];
