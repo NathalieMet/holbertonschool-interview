@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import sys
 import signal
-
+import re
 
 def print_stats(total_size, status_counts):
     """ Print the accumulated statistics
@@ -10,7 +10,6 @@ def print_stats(total_size, status_counts):
     for status_code in sorted(status_counts.keys()):
         if status_counts[status_code] > 0:
             print("{}: {}".format(status_code, status_counts[status_code]))
-
 
 count = 0
 total_size = 0
@@ -24,7 +23,7 @@ status_counts = {
     "405": 0,
     "500": 0
 }
-
+pattern = r'<IP Address> - \[.+\] "GET /projects/260 HTTP/1.1" \d{3} \d+'
 
 def signal_handler(sig, frame):
     """ Handle the keyboard interruption signal
@@ -32,10 +31,12 @@ def signal_handler(sig, frame):
     print_stats(total_size, status_counts)
     sys.exit(0)
 
-
 signal.signal(signal.SIGINT, signal_handler)
 
 for line in sys.stdin:
+    check_line = line.strip()
+    if not re.search(pattern, check_line):
+        continue
     count += 1
     parts = line.split()
 
