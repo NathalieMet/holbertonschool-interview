@@ -39,16 +39,15 @@ for line in sys.stdin:
     count += 1
     parts = line.split()
 
-    if len(parts) < 9:
-        continue
-
-    status = parts[-2]
-    file_size = parts[-1]
+    """if len(parts) < 9:
+        continue"""
 
     try:
+        status = parts[-2]
+        file_size = parts[-1]
         file_size = int(file_size)
         total_size += file_size
-    except ValueError:
+    except Exception:
         continue
 
     if status in status_counts:
