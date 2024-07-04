@@ -14,11 +14,11 @@
  */
 int is_palindrome(unsigned long n)
 {
-	if (n < 10)
-		return (1);
-
 	unsigned long reversed = 0;
 	unsigned long original = n;
+
+	if (n < 10)
+		return (1);
 
 	while (original > 0)
 	{
