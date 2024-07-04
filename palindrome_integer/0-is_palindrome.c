@@ -15,14 +15,16 @@
 int is_palindrome(unsigned long n)
 {
 	char str[20];
+	char *ptr_begin;
+	char *ptr_end;
 
 	if (n < 10)
 		return (1);
 
 	snprintf(str, sizeof(str), "%lu", n);
 
-	char *ptr_begin = str;
-	char *ptr_end = str + strlen(str) - 1;
+	ptr_begin = str;
+	ptr_end = str + strlen(str) - 1;
 
 	while (ptr_begin <= ptr_end)
 	{
