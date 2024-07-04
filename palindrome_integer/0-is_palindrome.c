@@ -14,25 +14,17 @@
  */
 int is_palindrome(unsigned long n)
 {
-	char str[20];
-	char *ptr_begin;
-	char *ptr_end;
-
 	if (n < 10)
 		return (1);
 
-	snprintf(str, sizeof(str), "%lu", n);
+	unsigned long reversed = 0;
+	unsigned long original = n;
 
-	ptr_begin = str;
-	ptr_end = str + strlen(str) - 1;
-
-	while (ptr_begin <= ptr_end)
+	while (original > 0)
 	{
-		if (*ptr_begin != *ptr_end)
-			return (0);
-
-		ptr_begin++;
-		ptr_end--;
+		reversed = reversed * 10 + original % 10;
+		original /= 10;
 	}
-	return (1);
+
+	return (reversed == n);
 }
