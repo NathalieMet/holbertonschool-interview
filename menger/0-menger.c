@@ -4,32 +4,36 @@
 
 #include "menger.h"
 
-#define MAX_SIZE 2187 // 3^7, which is the maximum level considered
+#define MAX_SIZE 2187
 
 void fillGrid(int level, char grid[MAX_SIZE][MAX_SIZE], int size);
 void clearCenter(int level, char grid[MAX_SIZE][MAX_SIZE], int size, int x, int y);
 
 void menger(int level) {
+	int size = pow(3, level);
+    char grid[MAX_SIZE][MAX_SIZE];
+	int i, j;
+
     if (level < 0) {
         return;
     }
 
-    int size = pow(3, level);
-    char grid[MAX_SIZE][MAX_SIZE];
-
-    // Initialize the grid with '#'
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
+    /** Initialize the grid with '#'
+	*/
+    for (i = 0; i < size; i++) {
+        for (j = 0; j < size; j++) {
             grid[i][j] = '#';
         }
     }
 
-    // Clear the center
+    /** Clear the center
+	*/
     fillGrid(level, grid, size);
 
-    // Print the grid
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
+    /** Print the grid
+	*/
+    for (i = 0; i < size; i++) {
+        for (j = 0; j < size; j++) {
             putchar(grid[i][j]);
         }
         putchar('\n');
@@ -66,9 +70,10 @@ void clearCenter(int level, char grid[MAX_SIZE][MAX_SIZE], int size, int x, int 
     }
 
     int subSize = size / 3;
+	int i, j;
 
-    for (int i = x + subSize; i < x + 2 * subSize; i++) {
-        for (int j = y + subSize; j < y + 2 * subSize; j++) {
+    for (i = x + subSize; i < x + 2 * subSize; i++) {
+        for (j = y + subSize; j < y + 2 * subSize; j++) {
             grid[i][j] = ' ';
         }
     }
