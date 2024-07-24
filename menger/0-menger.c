@@ -47,11 +47,11 @@ void menger(int level) {
  * @size: The current size of the grid
  */
 void fillGrid(int level, char grid[MAX_SIZE][MAX_SIZE], int size) {
+    int subSize = size / 3;
+
     if (level == 0) {
         return;
     }
-
-    int subSize = size / 3;
     clearCenter(level, grid, size, 0, 0);
     fillGrid(level - 1, grid, subSize);
 }
@@ -65,12 +65,12 @@ void fillGrid(int level, char grid[MAX_SIZE][MAX_SIZE], int size) {
  * @y: The y-coordinate of the top-left corner
  */
 void clearCenter(int level, char grid[MAX_SIZE][MAX_SIZE], int size, int x, int y) {
-    if (level == 0) {
-        return;
-    }
-
     int subSize = size / 3;
 	int i, j;
+
+	if (level == 0) {
+        return;
+    }
 
     for (i = x + subSize; i < x + 2 * subSize; i++) {
         for (j = y + subSize; j < y + 2 * subSize; j++) {
