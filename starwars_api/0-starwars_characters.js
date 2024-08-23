@@ -1,13 +1,16 @@
 #!/usr/bin/node
-const request = require('request-promise');
+const request = require('request');
+const util = require('util');
+
+const requestPromise = util.promisify(request);
 
 async function getCharacterName(url) {
     try {
-        const body = await request(url);
-        const characterData = JSON.parse(body);
+        const response = await requestPromise(url);
+        const characterData = JSON.parse(response.body);
         return characterData.name;
     } catch (error) {
-        console.error('Error:', error.message);
+        console.error('Error fetching character:', error.message);
     }
 }
 
@@ -20,8 +23,8 @@ async function printMovieCharacters(movieId) {
     const url = `https://swapi-api.hbtn.io/api/films/${movieId}`;
 
     try {
-        const body = await request(url);
-        const movieData = JSON.parse(body);
+        const response = await requestPromise(url);
+        const movieData = JSON.parse(response.body);
         const characters = movieData.characters;
 
         for (const characterUrl of characters) {
@@ -31,7 +34,7 @@ async function printMovieCharacters(movieId) {
             }
         }
     } catch (error) {
-        console.error('Error:', error.message);
+        console.error('Error fetching movie data:', error.message);
     }
 }
 
