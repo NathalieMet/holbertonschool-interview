@@ -1,44 +1,39 @@
 #!/usr/bin/node
-const request = require('request');
+const request = require('request-promise');
 
-const movieId = process.argv[2];
-
-if (!movieId) {
-    console.error('Usage: node script.js <movie>');
-    process.exit(1);
+async function getCharacterName(url) {
+    try {
+        const body = await request(url);
+        const characterData = JSON.parse(body);
+        return characterData.name;
+    } catch (error) {
+        console.error('Error:', error.message);
+    }
 }
 
-const url = `https://swapi-api.hbtn.io/api/films/${movieId}`;
-
-request(url, (error, response, body) => {
-    if (error) {
-        console.error('Error:', error.message);
-        return;
+async function printMovieCharacters(movieId) {
+    if (!movieId) {
+        console.error('Usage: node script.js <movie>');
+        process.exit(1);
     }
 
-    if (response.statusCode !== 200) {
-        console.error('Failed to retrieve data. Status code:', response.statusCode);
-        return;
-    }
+    const url = `https://swapi-api.hbtn.io/api/films/${movieId}`;
 
     try {
+        const body = await request(url);
         const movieData = JSON.parse(body);
         const characters = movieData.characters;
 
-        characters.forEach((characterUrl) => {
-            request(characterUrl, (charError, charResponse, charBody) => {
-                if (charError) {
-                    console.error('Error:', charError.message);
-                    return;
-                }
-
-                if (charResponse.statusCode === 200) {
-                    const characterData = JSON.parse(charBody);
-                    console.log(characterData.name);
-                }
-            });
-        });
-    } catch (parseError) {
-        console.error('Error parsing JSON:', parseError.message);
+        for (const characterUrl of characters) {
+            const name = await getCharacterName(characterUrl);
+            if (name) {
+                console.log(name);
+            }
+        }
+    } catch (error) {
+        console.error('Error:', error.message);
     }
-});
+}
+
+const movieId = process.argv[2];
+printMovieCharacters(movieId);
