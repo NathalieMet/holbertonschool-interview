@@ -99,35 +99,29 @@ heap_t *get_last_node(heap_t *root)
  */
 int heap_extract(heap_t **root)
 {
-	int root_value;
-	heap_t *last_node;
-
-	if (root == NULL || *root == NULL)
+	if (!root || !*root)
 		return (0);
 
-	root_value = (*root)->n; /* Store the value of the root node */
+	int extracted_value = (*root)->n;
+	heap_t *last_node = get_last_node(*root);
 
-	/* Get the last node */
-	last_node = get_last_node(*root);
-	if (last_node == NULL)
-		return (root_value); /* Only one node */
+	if (last_node == *root)
+	{
+		free(*root);
+		*root = NULL;
+		return (extracted_value);
+	}
 
-	/* Replace the root's value with the last node's value */
 	(*root)->n = last_node->n;
 
-	/* Free the last node */
-	if (last_node->parent)
-	{
-		if (last_node->parent->left == last_node)
-			last_node->parent->left = NULL;
-		else
-			last_node->parent->right = NULL;
-	}
+	if (last_node->parent->left == last_node)
+		last_node->parent->left = NULL;
+	else
+		last_node->parent->right = NULL;
+
 	free(last_node);
 
-	/* Restore the Max-Heap property */
 	heapify_down(*root);
 
-	return (root_value);
+	return (extracted_value);
 }
-
