@@ -51,7 +51,7 @@ char *mul(char *num1, char *num2) {
     /* Convertir le tableau en chaîne de caractères */
     char *result_str = malloc(len_result + 1);
     if (!result_str) {
-        free(result);  // Libérer la mémoire en cas d'échec de l'allocation
+        free(result);
         return NULL;
     }
 
@@ -73,7 +73,7 @@ char *mul(char *num1, char *num2) {
 
     result_str[k] = '\0';
 
-    free(result);  // Libérer la mémoire du tableau intermédiaire
+    free(result);
     return result_str;
 }
 
@@ -93,7 +93,7 @@ int main(int argc, char *argv[]) {
 
     if (result) {
         print_number(result);
-        free(result);  // Libérer la mémoire après l'utilisation du résultat
+        free(result);
     } else {
         printf("Error\n");
         return (98);
