@@ -15,15 +15,14 @@ def makeChange(coins, total):
 
     coins.sort(reverse=True)
     count = 0
-    remaining_total = total
 
     for coin in coins:
-        if coin <= remaining_total:
-            num_of_coins = remaining_total // coin
-            count += num_of_coins
-            remaining_total -= num_of_coins * coin
+        if total >= coin:
+            num_coins = total // coin
+            total -= num_coins * coin
+            count += num_coins
 
-        if remaining_total == 0:
+        if total == 0:
             return count
 
     return -1
