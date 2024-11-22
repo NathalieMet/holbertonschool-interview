@@ -4,15 +4,15 @@
 #include <stdlib.h>
 
 /**
- * height - Computes the height of a binary tree
- * @tree: Pointer to the root node of the tree
+ * height - Calcule la hauteur d'un arbre binaire
+ * @tree: Pointeur vers la racine de l'arbre
  *
- * Return: Height of the tree or 0 if tree is NULL
+ * Return: Hauteur de l'arbre ou -1 si NULL
  */
 int height(const binary_tree_t *tree)
 {
-	if (tree == NULL)
-		return (0);
+	if (!tree)
+		return (-1);
 
 	int left_height = height(tree->left);
 	int right_height = height(tree->right);
@@ -66,28 +66,64 @@ int is_balanced(const binary_tree_t *tree)
  *
  * Return: 1 if the tree is a valid AVL tree, otherwise 0
  */
+/**
+ * binary_tree_is_avl - Vérifie si un arbre est une AVL valide
+ * @tree: Pointeur vers la racine de l'arbre
+ *
+ * Return: 1 si l'arbre est une AVL valide, 0 sinon
+ */
 int binary_tree_is_avl(const binary_tree_t *tree)
 {
-	if (tree == NULL)
-		return (1);
+	int left_height, right_height;
 
-	int balance_factor;
-	int left_is_avl;
-	int right_is_avl;
-
-	int left_height = height(tree->left);
-	int right_height = height(tree->right);
-
-	balance_factor = left_height - right_height;
-	if (balance_factor < -1 || balance_factor > 1)
+	if (!tree)
 		return (0);
 
-	left_is_avl = binary_tree_is_avl(tree->left);
-	right_is_avl = binary_tree_is_avl(tree->right);
+	/* Validation BST intégrée */
+	if ((tree->left && tree->left->n >= tree->n) ||
+		(tree->right && tree->right->n <= tree->n))
+		return (0);
 
-	return (left_is_avl && right_is_avl);
+	if (tree->left)
+	{
+		const binary_tree_t *left_max = tree->left;
+
+		while (left_max->right)
+			left_max = left_max->right;
+		if (left_max->n >= tree->n)
+			return (0);
+	}
+
+	if (tree->right)
+	{
+		const binary_tree_t *right_min = tree->right;
+
+		while (right_min->left)
+			right_min = right_min->left;
+		if (right_min->n <= tree->n)
+			return (0);
+	}
+
+	/* Calcul des hauteurs */
+	left_height = height(tree->left);
+	right_height = height(tree->right);
+
+	/* Vérifie l'équilibre des hauteurs */
+	if (abs(left_height - right_height) > 1)
+		return (0);
+
+	/* Vérifie récursivement les sous-arbres */
+	return (binary_tree_is_avl(tree->left) &&
+			binary_tree_is_avl(tree->right));
 }
 
+/**
+ * binary_tree_node - Creates a new binary tree node
+ * @parent: Pointer to the parent node
+ * @value: Value to be stored in the new node
+ *
+ * Return: Pointer to the newly created node, or NULL on failure
+ */
 binary_tree_t *binary_tree_node(binary_tree_t *parent, int value)
 {
 	binary_tree_t *new_node = malloc(sizeof(binary_tree_t));
