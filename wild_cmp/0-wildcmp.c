@@ -1,46 +1,29 @@
 #include "holberton.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 /**
- * wildcmp - compares two strings and returns 1 if the strings can be
- * considered identical, otherwise return 0
+ * wildcmp - Compares two strings and checks if they can be considered
+ * identical.
+ * @s1: The first string.
+ * @s2: The second string, which can contain the special character '*'.
  *
- * @s1: Pointer to the first string
- * @s2: Pointer to the second string
- *
- * Return: 0 or 1 if identical
+ * Return: 1 if the strings can be considered identical, otherwise 0.
  */
 int wildcmp(char *s1, char *s2)
 {
-	size_t i, j;
+	if (*s1 == '\0' && *s2 == '\0')
+		return (1);
 
-	for (i = 0; i < strlen(s2); i++)
+	if (*s2 == '*')
 	{
+		if (wildcmp(s1, s2 + 1))
+			return (1);
 
-		while (s2[i] == '*' && i < strlen(s2))
-		{
-			i++;
-		}
-
-		for (j = 0; j <= strlen(s1); j++)
-		{
-			if (s1[j] == s2[i])
-			{
-
-				break;
-				}
-		}
-		if (s1[j] != s2[i])
-		{
-			return (0);
-			}
-		if (i == (strlen(s2) - 1) && j != (strlen(s1) - 1))
-		{
-			return (0);
-		}
+		if (*s1 != '\0' && wildcmp(s1 + 1, s2))
+			return (1);
 	}
 
-	return (1);
+	if (*s1 == *s2)
+		return (wildcmp(s1 + 1, s2 + 1));
+
+	return (0);
 }
