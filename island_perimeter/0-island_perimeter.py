@@ -29,12 +29,23 @@ def island_perimeter(grid):
             if grid[i][j] == 1:
                 if j > 0 and grid[i][j - 1] == 0:
                     perimeter += 1
+                    print(i, j, perimeter)
                 if j < (cols - 1) and grid[i][j + 1] == 0:
                     perimeter += 1
+                    print(i, j, perimeter)
                 if i < (rows - 1) and grid[i + 1][j] == 0:
                     perimeter += 1
+                    print(i, j, perimeter)
                 if i > 0 and grid[i - 1][j] == 0:
                     perimeter += 1
-                if j < 0 or i < 0 or (i + 1) >= rows or (j + 1) >= cols:
+                    print(i, j, perimeter)
+                if (j - 1) < 0:
                     perimeter += 1
+                if (i - 1) < 0:
+                    perimeter += 1
+                if (i + 1) >= rows:
+                    perimeter += 1
+                if (j + 1) >= cols:
+                    perimeter += 1
+                    print(i, j, perimeter)
     return perimeter
