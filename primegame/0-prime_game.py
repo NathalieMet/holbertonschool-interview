@@ -12,18 +12,26 @@ who the winner of each game is.
 
 
 def isWinner(x, nums):
-    """Détermine le gagnant du jeu."""
+    """Détermine le gagnant des x jeux."""
+    if x <= 0 or not nums:
+        return None
+
     maria = 0
     ben = 0
 
     for i in range(x):
-        numberlist = list(range(1, nums[i] + 1))
+        n = nums[i]
+        if n < 2:
+            ben += 1
+            continue
+
+        numberlist = list(range(1, n + 1))
 
         flag = 0
 
-        for element in sorted(numberlist):
+        for element in numberlist:
             if is_prime(element):
-                numberlist[:] = [x for x in numberlist if x % element != 0]
+                numberlist = [x for x in numberlist if x % element != 0]
                 flag += 1
 
         if flag % 2 == 0:
