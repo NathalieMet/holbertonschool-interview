@@ -12,32 +12,30 @@ who the winner of each game is.
 
 
 def isWinner(x, nums):
-    """Détermine le gagnant des x jeux."""
+    """Détermine le gagnant de chaque jeu."""
     if x <= 0 or not nums:
         return None
 
     maria = 0
     ben = 0
 
-    for i in range(x):
-        n = nums[i]
+    for n in nums:
         if n < 2:
             ben += 1
             continue
 
-        numberlist = list(range(1, n + 1))
+        primes = generate_primes_up_to(n)
+        turn = 0
 
-        flag = 0
+        while primes:
+            prime = primes[0]
+            primes = [x for x in primes if x % prime != 0]
+            turn = 1 - turn
 
-        for element in numberlist:
-            if is_prime(element):
-                numberlist = [x for x in numberlist if x % element != 0]
-                flag += 1
-
-        if flag % 2 == 0:
-            ben += 1
-        else:
+        if turn == 1:
             maria += 1
+        else:
+            ben += 1
 
     if maria > ben:
         return "Maria"
@@ -47,11 +45,15 @@ def isWinner(x, nums):
         return None
 
 
-def is_prime(nombre):
-    """Vérifie si un nombre est premier."""
-    if nombre <= 1:
-        return False
-    for i in range(2, int(nombre**0.5) + 1):
-        if nombre % i == 0:
-            return False
-    return True
+def generate_primes_up_to(n):
+    """
+    Génère une liste des nombres premiers jusqu'à `n` (inclus) en utilisant
+    le crible d'Ératosthène.
+    """
+    sieve = [True] * (n + 1)
+    sieve[0] = sieve[1] = False
+    for i in range(2, int(n**0.5) + 1):
+        if sieve[i]:
+            for j in range(i * i, n + 1, i):
+                sieve[j] = False
+    return [i for i in range(n + 1) if sieve[i]]
